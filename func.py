@@ -1,4 +1,4 @@
-from vars import *
+from vars import WIDTH, HEIGHT
 
 
 def delete_obj_out_of_screen(cells, space):
@@ -18,3 +18,24 @@ def delete_obj_out_of_screen(cells, space):
     # Удаляем объекты из списка cells
     for index in reversed(objects_to_remove):
         del cells[index]
+
+
+def delete_obj_out_of_food(cells, space):
+    # Переменная для хранения индексов объектов, которые вышли за пределы пространства
+    objects_to_remove = []
+    for i, cell in enumerate(cells):
+        if cell.food <= 0:
+            objects_to_remove.append(i)  # Добавляем индекс клетки в список для удаления
+            space.remove(cell.body, cell.shape)
+
+    # Удаляем объекты из списка cells
+    for index in reversed(objects_to_remove):
+        del cells[index]
+
+
+def update_physics_space(cells, new_cells, space):
+    for new_cell in new_cells:
+        cells.append(new_cell)
+        space.add(new_cell.body, new_cell.shape)
+    new_cells.clear()
+    pass

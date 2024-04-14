@@ -1,8 +1,11 @@
-from vars import *
+import random
+from simulation.simulation import update_simulation
+from vars import cells, new_cells, FPS
 from pygame_init import *
 from func import *
-from pymunk_init import space, draw_options, cells, new_cells
+from pymunk_init import space, draw_options
 from func import delete_obj_out_of_screen
+
 
 
 def pygame_cycle(run=False):
@@ -12,18 +15,13 @@ def pygame_cycle(run=False):
                 exit()
 
         # Заливка фона
-        surface.fill(pg.Color("black"))
+        surface.fill(pg.Color("#038A9D"))
 
         space.step(1 / FPS)
 
-        for cell in cells:
-            cell.reproduce(new_cells=new_cells)
+        update_simulation(cells)
 
-
-        for new_cell in new_cells:
-            cells.append(new_cell)
-            space.add(new_cell.body, new_cell.shape)
-        new_cells.clear()
+        update_physics_space(cells=cells, new_cells=new_cells, space=space)
 
         delete_obj_out_of_screen(cells, space)
 
